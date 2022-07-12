@@ -1,4 +1,24 @@
 from django.db import models
 
-
-# Create your models here.
+class senors(models.Model):
+    flame1 = models.CharField(max_length=16, blank=True)
+    flame2 = models.CharField(max_length=16, blank=True)
+    flame3 = models.CharField(max_length=16, blank=True)
+    flame4 = models.CharField(max_length=16, blank=True)
+    flame5 = models.CharField(max_length=16, blank=True)
+    flame6 = models.CharField(max_length=16, blank=True)
+    flame7 = models.CharField(max_length=16, blank=True)
+    flame8 = models.CharField(max_length=16, blank=True)
+    smoke1 = models.CharField(max_length=16, blank=True)
+    smoke2 = models.CharField(max_length=16, blank=True)
+    smoke3 = models.CharField(max_length=16, blank=True)
+    smoke4 = models.CharField(max_length=16, blank=True)
+    smoke5 = models.CharField(max_length=16, blank=True)
+    smoke6 = models.CharField(max_length=16, blank=True)
+    smoke7 = models.CharField(max_length=16, blank=True)
+    smoke8 = models.CharField(max_length=16, blank=True)
+    motion = models.CharField(max_length=16, blank=True)
+    humidity = models.CharField(max_length=16, blank=True)
+    temperature1 = models.CharField(max_length=16, blank=True)
+    temperature2 = models.CharField(max_length=16, blank=True)
+    water = models.CharField(max_length=16, blank=True)
