@@ -5,4 +5,7 @@ from . import views
 
 urlpatterns = [
     path('',views.index, name='index'),
+    path('getReadings',views.getReadings, name='getReadings'),
+    
 ]
+

@@ -1,0 +1,77 @@
+import sys
+import smbus2 as smbus
+import time
+import sqlite3
+import os.path
+import datetime 
+
+I2C_SLAVE_ADDRESS1 = 0xf
+
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+db_path = os.path.join(BASE_DIR, "db.sqlite3")
+
+def convertStringsToBytes(src):
+    converted = []
+    for b in src:
+        converted.append(ord(b))
+    return converted
+
+def main(args):
+    I2Cbus = smbus.SMBus(1)
+    conn = sqlite3.connect(db_path)
+    print("connected to SQLite")
+    while True:
+        now = datetime.datetime.now()
+        dt_string = now.strftime("%H:%M:%S")
+        with smbus.SMBus(1) as I2Cbus:
+            try:
+                data1 = I2Cbus.read_i2c_block_data(I2C_SLAVE_ADDRESS1,0x00,21)
+                #data comes in as array of bytes, in this format:
+                #[flame1,flame2,flame3,flame4,flame5,flame6,flame7,flame8,smoke1,smoke2,smoke3,smoke4,smoke5,smoke6,smoke7,smoke8,motion,humidity,temp1,temp2,water]
+                print(str(data1))
+                file = open("logfile.txt","w")
+                file.write(str(data1))
+                file.close()
+                for x in range(1,22):
+                    status = ""
+                    if x < 9 and int(data1[x-1]) < 1:
+                        status = "critical"
+                    elif x<9 and int(data1[x-1]) > 0:
+                        status = "normal"
+                    elif x >= 9 and x <= 16 and int(data1[x-1]) < 160:
+                        status = "normal"
+                    elif x>=9 and x<=16 and int(data1[x-1]) < 200:
+                        status = "warning"
+                    elif x>=9 and x<=16 and int(data1[x-1])>=200:
+                        statuc = "critical"
+                    elif x == 17 and data1[x-1] == 1:
+                        status = "critical"
+                    elif x == 17 and data1[x-1] == 0:
+                        status = "nornal"
+                    elif x == 18 and data1[x-1] >=80:
+                        status = "critical"
+                    elif x == 18 and data1[x-1] <80:
+                        status = "normal"
+                    elif x >=19 and x <=20 and data1[x-1] > 82:
+                        status = "critical"
+                    elif x>=19 and x<=20 and data1[x-1] <=82:
+                        status = "normal"
+                    
+                    else:
+                        status = "undefined"
+                    conn.execute("UPDATE myapp_sensors_table SET value = ?, time = ?, status = ? WHERE id = ?",(data1[x-1], dt_string,status,x))
+                conn.commit()
+                print("values updated")
+                time.sleep(3)
+            except KeyboardInterrupt:
+                print("exiting")
+                exit(0)
+    return 0
+
+if __name__ == "__main__":
+    try:
+        main(sys.argv)
+    except KeyboardInterrupt:
+        print("stopped")
+    input()
+

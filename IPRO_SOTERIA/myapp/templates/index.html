@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+    	<meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>SOTERIA App</title>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js">
+	</script>
+	<style>
+	th {font-size: 24px;}
+	
+	</style>
+	</head>
+	<body>
+		{% block content %}
+		 <h1 style='text-align:center; margin: auto; padding-bottom: 20px;'><u>Fire Alarm Status</u></h1>
+		<div class="main-container">
+		
+		<div class = "table-container">
+		<table  style='width:50%; border: 3px solid green; margin-left: auto; margin-right: auto;'>
+			<tr style='border: 3px solid green;'>
+			<th style='border: 3px solid green; font-size: 24px;'>Sensor No.</th>
+			<th style='border: 3px solid green;'>Sensor ID</th>
+			<th style='border: 3px solid green;'>Value</th>
+			<th style='border: 3px solid green;'>Indicator</th>
+			</tr>
+			{% for sensor in sensor_readings %}	
+			<tr style='border: 3px solid green;'>
+			<th style='border: 3px solid green;'>{{sensor.id}}</th>
+			<th style='border: 3px solid green;'>{{sensor.sensor_id}}</th>
+			<th style='border: 3px solid green;', id = "{{ sensor.id }}">{{sensor.value}}</th>
+			<th id='{{ sensor.id }}a' style='border: 3px solid green;'>
+				
+			</tr>
+			{% endfor %}
+		</table>
+		</div>
+		
+		</div>
+		{% endblock %}
+	</body>
+		<script>
+		function updateTable(){
+		$.ajax(
+		{
+		type:"GET",
+		url:"/app/getReadings",
+		dataType: "json",
+		success: function(data){
+			console.log(data)
+			for(let i = 0; i<data.length;i++){
+				let temp = data[i]['pk']
+				let temp2 = temp + "a"
+				let newval = data[i]['fields']['value']
+				let element = document.getElementById(temp)
+				let element2 = document.getElementById(temp2)
+				element.innerHTML = newval
+				let status = data[i]['fields']['status']
+				if (status === 'normal'){element2.style.backgroundColor = "green"}
+				else if (status === 'warning'){element2.style.backgroundColor = "yellow"}
+				else if (status === 'critical'){element2.style.backgroundColor = "red"}
+				else {element2.style.backgroundColor = 'blue'}
+			}
+		}
+
+		})
+		setTimeout(updateTable,3000);		
+		}
+		updateTable();
+	
+		</script>
+	        <script>
+  		/* 
+		var data = JSON.parse("{{sensor.value|escapejs}}");
+   		 var data_float = 5;
+   		 var datanode = document.getElementById('smoke-back');
+   		 datanode.innerHTML+=data_float;
+		*/
+		</script>
+
+
+
+</html>
