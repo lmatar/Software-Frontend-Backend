@@ -1,19 +1,41 @@
 {% block content %}
-{% if form.errors %}
-    <p>Your username and password didn't match. Please try again.</p>
-{% endif %}
-  	<div class="login-container">
-  	<h1>Soteria System Login</h1>
-  	<form method="post" action="{%url 'users:login' %}">
+<!--{% if form.errors %}-->
+<!--    <p>Your username and password didn't match. Please try again.</p>-->
+<!--{% endif %}-->
+<head>
+     <title>Soteria Login</title>
+</head>
+<main id="main-holder">
+
+  	<h1 id="login-header">Soteria System Login</h1>
+    <div id="login-error-msg-holder">
+            {% if form.errors %}
+    <p id="login-error-msg">Your username and password didn't match. Please try again.</p>
+             {% endif %}
+        </div>
+  	<form method="post" action="{%url 'users:login' %}" id="login-form">
     {% csrf_token %}
-    {{ form.as_p }}
-    <button name="submit">log in</button>
-    <input type="hidden" name="next"
+<!--    {{ form.as_p }}-->
+<!--        {% if form.errors %}-->
+<!--        <div id="login-error-msg-holder">-->
+<!--            {% if form.errors %}-->
+<!--    <p id="login-error-msg">Your username and password didn't match. Please try again.</p>-->
+<!--             {% endif %}-->
+<!--        </div>-->
+<!--        {% endif %}-->
+        <input type="text" name="username" id="username-field" class="login-form-field" placeholder="Username">
+        <input type="password" name="password" id="password-field" class="login-form-field" placeholder="Password">
+        <button name="submit" id="login-form-submit">Login</button>
+        <input type="hidden" name="next"
       value="{%url 'myapp:index' %}" />
     </form>
 
   {% endblock content %}
-	</div>
+
+</main>
+
+
+
 <style>
 form{
 	margin-left:auto;
@@ -23,9 +45,74 @@ form{
 	justify-content:center;
 }
 body {
-	text-align:center;
+  height: 100%;
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  display: grid;
+  justify-items: center;
+  align-items: center;
+  background-color: #3a3a3a;
 }
 .login-container{
 	margin:100px;
+}
+#main-holder {
+  width: 30%;
+  height: 50%;
+  display: grid;
+  justify-items: center;
+  align-items: center;
+  background-color: white;
+  border-radius: 7px;
+  box-shadow: 0px 0px 5px 2px black;
+}
+#login-form-submit {
+  width: 100%;
+  padding: 7px;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  font-weight: bold;
+  background-color: #3a3a3a;
+  cursor: pointer;
+  outline: none;
+}
+.login-form-field::placeholder {
+  color: #3a3a3a;
+}
+
+.login-form-field {
+    width: 190%;
+  border: none;
+  border-bottom: 1px solid #3a3a3a;
+  margin-bottom: 10px;
+  border-radius: 3px;
+  outline: none;
+  padding: 25px 0px 5px 5px;
+}
+#login-form {
+  align-self: flex-start;
+  display: grid;
+  justify-items: center;
+  align-items: center;
+}
+#login-error-msg-holder {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  justify-items: center;
+  align-items: center;
+}
+#login-error-msg {
+  width: 50%;
+  text-align: center;
+  margin: 0;
+  padding: 5px;
+  font-size: 12px;
+  font-weight: bold;
+  color: #8a0000;
+  border: 1px solid #8a0000;
+  background-color: #e58f8f;
+
 }
 </style>
