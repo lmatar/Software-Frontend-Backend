@@ -1,0 +1,86 @@
+
+a,abbr,acronym,address,applet,article,aside,audio,b,big,blockquote,body,canvas,caption,center,cite,code,dd,del,details,dfn,div,dl,dt,em,embed,fieldset,figcaption,figure,footer,form,h1,h2,h3,h4,h5,h6,header,hgroup,html,i,iframe,img,ins,kbd,label,legend,li,mark,menu,nav,object,ol,output,p,pre,q,ruby,s,samp,section,small,span,strike,strong,sub,summary,sup,table,tbody,td,tfoot,th,thead,time,tr,tt,u,ul,var,video{margin:0;padding:0;border:0;font:inherit;vertical-align:baseline}article,aside,details,figcaption,figure,footer,header,hgroup,main,menu,nav,section{display:block}html{line-height:1}body{line-height:inherit}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:after,blockquote:before,q:after,q:before{content:'';content:none}table{border-collapse:collapse;border-spacing:0}
+
+
+
+*{
+  color: black;
+  background-color: lightgrey;
+}
+html{
+font-family: "verdana", helvetica , arial, sans-serif;
+font-size: 1.438em; 
+line-height: 1.563em; 
+}
+#main-holder{
+  font-weight:bold;
+}
+article{
+  padding-left: 1.250em;
+  padding-right: 1.250em; 
+}
+footer{
+  text-align: center;
+  font-size: 0.938em;
+  bottom: 0;
+  background-color: grey;
+  color: white;
+  padding-bottom: 1.250em; 
+  padding-top: 1.250em;
+}
+/* Modular styles */
+#main-holder{
+  padding-top: .345em; 
+  padding-bottom: .345em; 
+  text-align: center;
+  display: grid;
+  font-size: 1.248em; 
+  line-height: 1.547em;
+  font-family: Verdana, arial, helvetica, sans-serif;
+  font-size: 1.438em; 
+  line-height: 2em; 
+  padding-top: 1.250em; 
+  padding-bottom: 1.250em; 
+}
+#my-nav {
+  font-family: Verdana, arial, helvetica, sans-serif;
+  font-size: 1.438em; 
+  line-height: 2em; 
+  padding-top: 1.250em; 
+  padding-bottom: 1.250em; 
+}
+#my-nav li, a {
+  background-color: grey;
+  text-decoration: none;
+  display: block;
+  text-align: center;
+}
+#my-nav a:hover {
+  background-color: #777;
+}
+
+
+@media screen and (min-width: 18.750em) { 
+  #my-nav ul{
+    display: flex;
+    flex-flow: row wrap;
+  }
+  #my-nav li {
+    flex: 1 0 auto;
+  }
+   .main-holder{
+     display: flex;
+     flex-flow: column wrap;
+     justify-content: center;
+     align-items: flex-end;
+     justify-content: space-around;
+  }
+}
+@media screen and (min-width: 31.250em) { 
+  #main-holder{
+    display: flex;
+  }
+  #my-nav li {
+    flex: 1 0 auto;
+  }
+}
