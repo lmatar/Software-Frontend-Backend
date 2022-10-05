@@ -4,20 +4,29 @@
     	<meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
    	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>SOTERIA App</title>
+        <title>Soteria Dashboard </title>
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js">
 	</script>
 	<style>
 	th {font-size: 24px;}
 	
 	</style>
+	<ul>
+        <li style="float:left; display: block;
+        color: white;
+        text-align: center;
+        padding: 14px 16px;
+        text-decoration: none;">Soteria Dashboard</li>
+        <li><a href="#">  Logout  </a></li>
+
+      </ul>
 	</head>
 	<body>
 		{% block content %}
-		 <h1 style='text-align:center; margin: auto; padding-bottom: 20px;'><u>Fire Alarm Status</u></h1>
-		<div class="main-container">
+		 <h1 style="text-align:center;margin: auto;padding-bottom: 20px;color: white;padding-top: 20px;"><u style="text-decoration:none">Welcome to the Sensor Data Dashboard</u></h1>
+		<div class="container">
 		
-		<div class = "table-container">
+		<!-- <div class = "table-container">
 		<table  style='width:50%; border: 3px solid green; margin-left: auto; margin-right: auto;'>
 			<tr style='border: 3px solid green;'>
 			<th style='border: 3px solid green; font-size: 24px;'>Sensor No.</th>
@@ -34,12 +43,42 @@
 				
 			</tr>
 			{% endfor %}
+		</table> -->
+		<table>
+			<thead>
+				<tr>
+					<th>Sensor No.</th>
+					<th>Sensor ID</th>
+					<th>Value</th>
+					<th>Indicator</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for sensor in sensor_readings %}	
+			<tr >
+			<th>{{sensor.id}}</th>
+			<th >{{sensor.sensor_id}}</th>
+			<th id = "{{ sensor.id }}">{{sensor.value}}</th>
+			<th id='{{ sensor.id }}a' >
+				
+			</tr>
+			</tbody>
+			{% endfor %}
 		</table>
-		</div>
-		
-		</div>
 		{% endblock %}
+		</div>
+
+		<ul>
+			<li style="float:none; display: block;
+			color: white;
+			text-align: center;
+			padding: 14px 16px;
+			text-decoration: none; font-size: 19px;">Soteria Dashboard</li>
+	
+		  </ul>
+
 	</body>
+	
 		<script>
 		function updateTable(){
 		$.ajax(
@@ -78,7 +117,71 @@
    		 datanode.innerHTML+=data_float;
 		*/
 		</script>
+<style>
+ul {
+	font-size: 19px;
+	width: 100%;
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+	overflow: hidden;
+	background-color: #333;
+  }
+  
+  li {
+	float:right
+  }
+  
+  li a {
+	display: block;
+	color: white;
+	text-align: center;
+	padding: 14px 16px;
+	text-decoration: none;
+  }
+  
+  li a:hover {
+	background-color: #111;
+  }
+  body {
+    height: 100%;
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    display: grid;
+    justify-items: center;
+    align-items: start;
+    background-color: #3a3a3a;
+}
+.container {
+    position: relative;
+    top: 50%;
+    left: 25%;
+    transform: translate(-50%, -50%);
+	padding-bottom: 15px;
+
+}
+
+table {
+	width: 800px;
+	border-collapse: collapse;
+	overflow: hidden;
+	box-shadow: 0 0 20px rgba(0,0,0,0.1);
+	padding-bottom: 10px;
+}
+
+th,
+td {
+	padding: 15px;
+	background-color: rgba(255,255,255,0.2);
+	color: #fff;
+}
+
+th {
+	text-align: left;
+}
 
 
+
+</style>
 
 </html>
