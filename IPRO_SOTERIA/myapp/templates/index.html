@@ -60,9 +60,9 @@
 			<tr >
 			<th>{{sensor.ip_id}}</th>
 			<th >{{sensor.sensor}}</th>
-			<th id = "{{ sensor.ip_id }}">{{sensor.value}}</th>
-			<th id='{{ sensor.ip_id }}a' >
-			<th>{{sensor.time}}</th>
+			<th id = '{{ sensor.ip_id }}value' >{{sensor.value}}</th>
+			<th id = '{{ sensor.ip_id }}indicator' >
+			<th id = '{{ sensor.ip_id }}time'>{{sensor.time}}</th>
 			</tr>
 			</tbody>
 			{% endfor %}
@@ -91,22 +91,35 @@
 		success: function(data){
 			console.log(data)
 			for(let i = 0; i<data.length;i++){
+				// pk (primary key) is the ip address concatenated with the index of the sensor 
+				// (e.g 169.254.114.34_3 and  169.254.114.34_7)
 				let temp = data[i]['pk']
-				let temp2 = temp + "a"
-				let newval = data[i]['fields']['value']
-				let element = document.getElementById(temp)
-				let element2 = document.getElementById(temp2)
-				element.innerHTML = newval
+				let value = temp + "value"
+				let indicator = temp + "indicator"
+				let time = temp + "time"
+				let newValue = data[i]['fields']['value']
+				let newTime = data[i]['fields']['time']
+				let valueElement = document.getElementById(value)
+				// This is the line to get the indicator record for each record
+				let indicatorElement = document.getElementById(indicator)
+				// This is the line to get the time record for each record
+				let timeElement = document.getElementById(time)
+				// This is the line to update the value every time we update the table
+				valueElement.innerHTML = newValue
+				// This is the line to update the time every time we update the table 
+				timeElement.innerHTML = new Date(newTime * 1000).toLocaleTimeString
 				let status = data[i]['fields']['status']
-				if (status === 'normal'){element2.style.backgroundColor = "green"}
-				else if (status === 'warning'){element2.style.backgroundColor = "yellow"}
-				else if (status === 'critical'){element2.style.backgroundColor = "red"}
-				else {element2.style.backgroundColor = 'blue'}
+				// This is the conditional statement used to update the indicator color
+				if (status === 'normal'){indicatorElement.style.backgroundColor = "green"}
+				else if (status === 'warning'){indicatorElement.style.backgroundColor = "yellow"}
+				else if (status === 'critical'){indicatorElement.style.backgroundColor = "red"}
+				else {indicatorElement.style.backgroundColor = 'blue'}
 			}
 		}
 
 		})
-		setTimeout(updateTable,3000);		
+		// Set the refresh time to 0.5 secs to get more accurate results in the display
+		setTimeout(updateTable,500);		
 		}
 		updateTable();
 	
@@ -164,7 +177,7 @@ ul {
 }
 
 table {
-	width: 800px;
+	width: 900px;
 	border-collapse: collapse;
 	overflow: hidden;
 	box-shadow: 0 0 20px rgba(0,0,0,0.1);
@@ -181,8 +194,6 @@ td {
 th {
 	text-align: left;
 }
-
-
 
 </style>
 
